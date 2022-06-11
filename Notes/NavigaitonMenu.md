@@ -6,10 +6,10 @@
 #### 'Header Menu Location' :- used in backend of site for you to check
 
 ###  /*In Header.php*/
-<pre style="color:red">
- <?php
+ <pre style="color:red">
+  <?php
    wp_nav_menu(array(
         'theme_location' => 'headerMenuLocation'
    ));
- ?>
+  ?>
  </pre>
