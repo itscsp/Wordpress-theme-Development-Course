@@ -1,11 +1,5 @@
-# single Post Page
-
-
+<pre>
 <?php
-/**
- * The template for displaying all single posts and attachments
- */
-  
 get_header(); ?>
   
     <div id="primary" class="content-area">
@@ -25,3 +19,5 @@ get_header(); ?>
     </div><!-- .content-area -->
   
 <?php get_footer(); ?>
+  
+ </pre>
