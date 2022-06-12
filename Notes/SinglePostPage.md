@@ -15,7 +15,7 @@ get_header(); ?>
         // Start the loop.
         while ( have_posts() ) : the_post();
   
-            echo "<h1>".the_title()."</h1>; //it display page title
+            echo "<h1>".the_title()."</h1>; //it display post title
   
         // End the loop.
         endwhile;
