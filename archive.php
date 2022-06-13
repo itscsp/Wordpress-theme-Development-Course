@@ -45,5 +45,6 @@
 
 
 <?php
+
   get_footer();
 ?>
