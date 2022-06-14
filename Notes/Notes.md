@@ -52,3 +52,13 @@
 
 </pre>
 
+ 
+### Result Before Meta Query
+    ![image](https://user-images.githubusercontent.com/86185190/173509970-0eb6ab7a-b774-4c5e-8044-8580a6ab3d26.png)
+ 
+### Result After Meta Query
+    ![image](https://user-images.githubusercontent.com/86185190/173510147-1119066e-ee6e-4d54-99ac-2330863191aa.png)
+
+
+    
+
