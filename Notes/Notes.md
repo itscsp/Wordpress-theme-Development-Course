@@ -21,11 +21,11 @@
 
 ## To add wordpress default class on body tag
 <pre>
-    <!-- <body <?php body_class(); ?>>  /*it give bunch of class that are usefull*/ -->
+    body <?php body_class(); ?>  /*it give bunch of class that are usefull*/ -->
 </pre>
 #### example :
 <pre>
-    <body class="home blog logged-in admin-bar  customize-support">
+    body class="home blog logged-in admin-bar  customize-support"
 </pre>
 
 ## Ordering Post
