@@ -1,5 +1,5 @@
 # How to Create a Custom Archives Page in WordPress
-### Custom archives page is a great way to bring together all your old content in one page. 
+### Custom archives page is a great way to bring together all your old content in one page.
 
 #### Refernce Site : https://visualcomposer.com/blog/wordpress-archive-page-and-post-grid/
 
@@ -58,3 +58,9 @@ get_header();
 &lt;?php
 get_footer();
 </pre>
+
+
+# To get dynamic archive page link
+
+### syntax :  <?php echo get_post_type_archive_link( custom post name ); ?>
+### example : <?php echo get_post_type_archive_link('event'); ?>
