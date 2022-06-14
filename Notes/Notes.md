@@ -20,8 +20,13 @@
 #### <meta charset="<?php bloginfo('charset') ?>">
 
 ## To add wordpress default class on body tag
-#### <body <?php body_class(); ?>> /*it give bunch of class that are usefull*/
-#### example : <body class="home blog logged-in admin-bar  customize-support">
+<pre>
+    <!-- <body <?php body_class(); ?>>  /*it give bunch of class that are usefull*/ -->
+</pre>
+#### example :
+<pre>
+    <body class="home blog logged-in admin-bar  customize-support">
+</pre>
 
 ## Ordering Post
 
@@ -36,14 +41,13 @@
     'orderby' => 'meta_value_num',
     'order' => 'ASC',
     'meta_query' => array(
-        array(
-        'key' => 'event_date',
-        'compare' => '>=',
-        'value' => $today,
-        'type' => 'numeric'
+            array(
+            'key' => 'event_date',
+            'compare' => '>=',
+            'value' => $today,
+            'type' => 'numeric'
+            )
         )
-    )
-
     ))
 
 </pre>
