@@ -23,6 +23,28 @@ function univercity_features() {
     add_theme_support('title-tag');
 }
 
+// to do change in archive page
+
+function univercity_adjust_queries($query) {
+    $today = date('Ymd');
+
+    if(!is_admin() AND is_post_type_archive('event') AND $query->is_main_query()){
+        $query->set('meta_key', 'event_date');
+        $query->set('orderby', 'meta_value_num');
+        $query->set('order', 'ASC');
+        $query->set('meta_query', array(
+            array(
+              'key' => 'event_date',
+              'compare' => '>=',
+              'value' => $today,
+              'type' => 'numeric'
+            )
+          ));
+
+
+    }
+}
+
 
 
 
@@ -33,3 +55,5 @@ Actions
 add_action('wp_enqueue_scripts', 'univercity_files');
 
 add_action('after_setup_theme','univercity_features');
+
+add_action('pre_get_posts', 'univercity_adjust_queries');
