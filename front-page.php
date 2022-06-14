@@ -5,11 +5,26 @@
 $homePagePosts = new WP_Query(array(
   'posts_per_page' => 2,
   'post_type' => "post" // by defalut this will be assing if have custom post you can assign it
+
 ));
+
+$today = date('Ymd');
 
 $homePageEvents = new WP_Query(array(
   'post_type' => 'event',
-  'posts+per_page' => 2
+  'posts+per_page' => -1,
+  'meta_key' => 'event_date',
+  'orderby' => 'meta_value_num',
+  'order' => 'ASC',
+  'meta_query' => array(
+    array(
+      'key' => 'event_date',
+      'compare' => '>=',
+      'value' => $today,
+      'type' => 'numeric'
+    )
+  )
+
 ))
 
 ?>
@@ -29,22 +44,14 @@ $homePageEvents = new WP_Query(array(
         <div class="full-width-split__inner">
           <h2 class="headline headline--small-plus t-center">Upcoming Events</h2>
 
-          <!-- <div class="event-summary">
-            <a class="event-summary__date t-center" href="#">
-              <span class="event-summary__month">Mar</span>
-              <span class="event-summary__day">25</span>
-            </a>
-            <div class="event-summary__content">
-              <h5 class="event-summary__title headline headline--tiny"><a href="#">Poetry in the 100</a></h5>
-              <p>Bring poems you&rsquo;ve wrote to the 100 building this Tuesday for an open mic and snacks. <a href="#" class="nu gray">Learn more</a></p>
-            </div>
-          </div> -->
           <?php while($homePageEvents->have_posts()) {
             $homePageEvents->the_post(); ?>
               <div class="event-summary">
                 <a class="event-summary__date t-center" href="<?php the_permalink(); ?>">
-                  <span class="event-summary__month"><?php the_time('M'); ?></span>
-                  <span class="event-summary__day"><?php the_time('d'); ?></span>
+                  <span class="event-summary__month"><?php
+                  $eventDate = new DateTime(get_field('event_date'));
+                  echo $eventDate->format('M'); ?></span>
+                  <span class="event-summary__day"><?php echo $eventDate->format('d'); ?></span>
                 </a>
                 <div class="event-summary__content">
                   <h5 class="event-summary__title headline headline--tiny"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h5>

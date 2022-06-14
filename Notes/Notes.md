@@ -23,3 +23,28 @@
 #### <body <?php body_class(); ?>> /*it give bunch of class that are usefull*/
 #### example : <body class="home blog logged-in admin-bar  customize-support">
 
+## Ordering Post
+
+<pre>
+
+    $today = date('Ymd');
+
+    $homePageEvents = new WP_Query(array(
+    'post_type' => 'event',
+    'posts+per_page' => -1,
+    'meta_key' => 'event_date',
+    'orderby' => 'meta_value_num',
+    'order' => 'ASC',
+    'meta_query' => array(
+        array(
+        'key' => 'event_date',
+        'compare' => '>=',
+        'value' => $today,
+        'type' => 'numeric'
+        )
+    )
+
+    ))
+
+</pre>
+
