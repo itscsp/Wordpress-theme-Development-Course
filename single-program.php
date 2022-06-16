@@ -51,7 +51,7 @@ while(have_posts()) {
         <div class="generic-content"><?php the_content(); ?></div>
         <?php if($homePageEvents->have_posts()){?>
         <hr class="section-break">
-        <h2 class="headlinne headline-medium">Related Events</h2>
+        <h2 class="headlinne headline-medium">Upcoming <?php echo get_the_title()?> Events</h2>
 
         <?php while($homePageEvents->have_posts()) {
             $homePageEvents->the_post(); ?>
