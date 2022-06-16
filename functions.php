@@ -16,7 +16,7 @@ function univercity_files() {
 //to generate unique title
 
 function univercity_features() {
-    register_nav_menu('headerMenuLocation', 'Header Menu Location'); // Create Menu Display option at backend of you site
+    // register_nav_menu('headerMenuLocation', 'Header Menu Location'); // Create Menu Display option at backend of you site
     // register_nav_menu('footerLocationOne', 'Footer Location One');
     // register_nav_menu('footerLocationTwo', 'Footer Location Two');
 
@@ -26,9 +26,15 @@ function univercity_features() {
 // to do change in archive page
 
 function univercity_adjust_queries($query) {
+    if(!is_admin() AND is_post_type_archive('program') AND is_main_query()) {
+        $query->set('orderby', 'title');
+        $query->set('order', 'ASC');
+        $query->set('posts_per_page', -1);
+    }
+
     $today = date('Ymd');
 
-    if(!is_admin() AND is_post_type_archive('event') AND $query->is_main_query()){
+    if(!is_admin() AND is_post_type_archive('event') AND is_main_query()){
         $query->set('meta_key', 'event_date');
         $query->set('orderby', 'meta_value_num');
         $query->set('order', 'ASC');
