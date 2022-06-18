@@ -21,6 +21,11 @@ function univercity_features() {
     // register_nav_menu('footerLocationTwo', 'Footer Location Two');
 
     add_theme_support('title-tag');
+    add_theme_support('post-thumbnails');
+    add_image_size('professorLandscape', 400, 260, true); //this functionality not working in my host but works in other hosts
+    add_image_size('professorPortrait', 480, 650, true);
+    add_image_size('PageBanner', 1500, 350, true);
+
 }
 
 // to do change in archive page
