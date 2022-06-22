@@ -45,4 +45,4 @@ function pageBanner($args=NULL) {
     </div>
     <?php
 }
-?>s
+?>
