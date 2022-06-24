@@ -76,7 +76,7 @@ function university_adjust_queries($query) {
 add_action('pre_get_posts', 'university_adjust_queries');
 
 function universityMapKey($api) {
-  $api['key'] = 'yourKeyGoesHere';
+  $api['key'] = 'AIzaSyC9Z8lQ-nbBJqfP9xETWPlO4gsR4HQ8fuI';
   return $api;
 }
 
