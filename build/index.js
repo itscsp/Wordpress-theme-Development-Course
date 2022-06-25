@@ -3892,13 +3892,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _css_style_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../css/style.scss */ "./css/style.scss");
 /* harmony import */ var _modules_MobileMenu__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/MobileMenu */ "./src/modules/MobileMenu.js");
 /* harmony import */ var _modules_HeroSlider__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/HeroSlider */ "./src/modules/HeroSlider.js");
+/* harmony import */ var _modules_Search__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/Search */ "./src/modules/Search.js");
  // Our modules / classes
+
 
 
  // Instantiate a new object using our modules/classes
 
 const mobileMenu = new _modules_MobileMenu__WEBPACK_IMPORTED_MODULE_1__["default"]();
 const heroSlider = new _modules_HeroSlider__WEBPACK_IMPORTED_MODULE_2__["default"]();
+const searchComponent = new _modules_Search__WEBPACK_IMPORTED_MODULE_3__["default"](); // alert("Hi")
 
 /***/ }),
 
@@ -3978,6 +3981,109 @@ class MobileMenu {
 
 /***/ }),
 
+/***/ "./src/modules/Search.js":
+/*!*******************************!*\
+  !*** ./src/modules/Search.js ***!
+  \*******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "jquery");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+
+
+class Search {
+  // 1. describe and create/initiate our object
+  constructor() {
+    this.resultDiv = jquery__WEBPACK_IMPORTED_MODULE_0___default()("#search-overlay__results");
+    this.openButton = jquery__WEBPACK_IMPORTED_MODULE_0___default()(".js-search-trigger");
+    this.closeButton = jquery__WEBPACK_IMPORTED_MODULE_0___default()(".search-overlay__close");
+    this.searchOverlay = jquery__WEBPACK_IMPORTED_MODULE_0___default()(".search-overlay");
+    this.searchField = jquery__WEBPACK_IMPORTED_MODULE_0___default()("#search-term");
+    this.events();
+    this.isOverlayOpen = false;
+    this.typingTimer;
+    this.isSpinnerVisible = false;
+    this.previousValue;
+  } // 2. events
+
+
+  events() {
+    this.openButton.on("click", this.openOverlay.bind(this));
+    this.closeButton.on("click", this.closeOverlay.bind(this));
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on("keydown", this.keyPressDispatcher.bind(this));
+    this.searchField.on("keyup", this.typingLogic.bind(this));
+  } // 3. methods (function, action...)
+
+
+  typingLogic() {
+    if (this.searchField.val() != this.previousValue) {
+      clearTimeout(this.typingTimer);
+
+      if (this.searchField.val()) {
+        if (!this.isSpinnerVisible) {
+          this.resultDiv.html('<div class="spinner-loader"></div>');
+          this.isSpinnerVisible = true;
+        }
+
+        this.typingTimer = setTimeout(this.getResult.bind(this), 2000);
+      } else {
+        this.resultDiv.html('');
+        this.isSpinnerVisible = false;
+      }
+    }
+
+    this.previousValue = this.searchField.val();
+  }
+
+  getResult() {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default().getJSON(univercityData.root_url + '/wp-json/wp/v2/posts?search=' + this.searchField.val(), posts => {
+      this.resultDiv.html(`
+          <h2 class="search-overlay__section-title" >General Information</h2>
+          ${posts.length ? `<ul>
+            ${posts.map(item => `
+            <li>
+              <a href="${item.link}">${item.title.rendered}</a>
+            </li>
+            `).join('')}
+          </ul>` : `<p>No general information matches that search.</p>`}
+          `);
+      this.isSpinnerVisible = false;
+    });
+  }
+
+  keyPressDispatcher(e) {
+    if (e.keyCode == 83 && !this.isOverlayOpen && !jquery__WEBPACK_IMPORTED_MODULE_0___default()("input, textarea").is(':focus')) {
+      this.openOverlay();
+    }
+
+    if (e.keyCode == 27 && this.isOverlayOpen) {
+      this.closeOverlay();
+    }
+  }
+
+  openOverlay() {
+    this.searchOverlay.addClass("search-overlay--active");
+    this.isOverlayOpen = true;
+    this.searchField.focus();
+  }
+
+  closeOverlay() {
+    this.searchOverlay.removeClass("search-overlay--active");
+    this.isOverlayOpen = false;
+  }
+
+  searchText() {}
+
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Search);
+
+/***/ }),
+
 /***/ "./css/style.scss":
 /*!************************!*\
   !*** ./css/style.scss ***!
@@ -3987,6 +4093,16 @@ class MobileMenu {
 __webpack_require__.r(__webpack_exports__);
 // extracted by mini-css-extract-plugin
 
+
+/***/ }),
+
+/***/ "jquery":
+/*!*************************!*\
+  !*** external "jQuery" ***!
+  \*************************/
+/***/ ((module) => {
+
+module.exports = window["jQuery"];
 
 /***/ })
 
@@ -4049,6 +4165,18 @@ __webpack_require__.r(__webpack_exports__);
 /******/ 				}
 /******/ 			}
 /******/ 			return result;
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/compat get default export */
+/******/ 	(() => {
+/******/ 		// getDefaultExport function for compatibility with non-harmony modules
+/******/ 		__webpack_require__.n = (module) => {
+/******/ 			var getter = module && module.__esModule ?
+/******/ 				() => (module['default']) :
+/******/ 				() => (module);
+/******/ 			__webpack_require__.d(getter, { a: getter });
+/******/ 			return getter;
 /******/ 		};
 /******/ 	})();
 /******/ 	
