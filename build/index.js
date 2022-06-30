@@ -3901,7 +3901,7 @@ __webpack_require__.r(__webpack_exports__);
 
 const mobileMenu = new _modules_MobileMenu__WEBPACK_IMPORTED_MODULE_1__["default"]();
 const heroSlider = new _modules_HeroSlider__WEBPACK_IMPORTED_MODULE_2__["default"]();
-const searchComponent = new _modules_Search__WEBPACK_IMPORTED_MODULE_3__["default"](); // alert("Hi")
+const searchComponent = new _modules_Search__WEBPACK_IMPORTED_MODULE_3__["default"]();
 
 /***/ }),
 
@@ -3998,6 +3998,7 @@ __webpack_require__.r(__webpack_exports__);
 class Search {
   // 1. describe and create/initiate our object
   constructor() {
+    this.addSearchHTML();
     this.resultDiv = jquery__WEBPACK_IMPORTED_MODULE_0___default()("#search-overlay__results");
     this.openButton = jquery__WEBPACK_IMPORTED_MODULE_0___default()(".js-search-trigger");
     this.closeButton = jquery__WEBPACK_IMPORTED_MODULE_0___default()(".search-overlay__close");
@@ -4029,7 +4030,7 @@ class Search {
           this.isSpinnerVisible = true;
         }
 
-        this.typingTimer = setTimeout(this.getResult.bind(this), 2000);
+        this.typingTimer = setTimeout(this.getResult.bind(this), 500);
       } else {
         this.resultDiv.html('');
         this.isSpinnerVisible = false;
@@ -4040,19 +4041,37 @@ class Search {
   }
 
   getResult() {
-    jquery__WEBPACK_IMPORTED_MODULE_0___default().getJSON(univercityData.root_url + '/wp-json/wp/v2/posts?search=' + this.searchField.val(), posts => {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default().getJSON(univercityData.root_url + '/wp-json/university/v1/search?term=' + this.searchField.val()), result => {
       this.resultDiv.html(`
-          <h2 class="search-overlay__section-title" >General Information</h2>
-          ${posts.length ? `<ul>
-            ${posts.map(item => `
-            <li>
-              <a href="${item.link}">${item.title.rendered}</a>
-            </li>
-            `).join('')}
-          </ul>` : `<p>No general information matches that search.</p>`}
-          `);
-      this.isSpinnerVisible = false;
-    });
+        <div class="row">
+          <div className="one-third">
+            <h2 className="search-overlay__section-title">General Information</h2>
+
+            ${result.generalInfo.length ? `<ul class="link-list min-list">
+                ${result.generalInfo.map(item => `
+                <li>
+                  <a href="${item.permlink}">${item.title}</a>
+                </li>
+                `).join('')}
+              </ul>` : `<p>No general information matches that search.</p>`}
+
+          </div>
+
+          <div className="one-third">
+            <h2 className="search-overlay__section-title">Programs</h2>
+
+            <h2 className="search-overlay__section-title">Professors</h2>
+          </div>
+
+          <div className="one-third">
+            <h2 className="search-overlay__section-title">Campuses</h2>
+
+            <h2 className="search-overlay__section-title">Events</h2>
+          </div>
+
+        </div>
+      `);
+    };
   }
 
   keyPressDispatcher(e) {
@@ -4067,8 +4086,17 @@ class Search {
 
   openOverlay() {
     this.searchOverlay.addClass("search-overlay--active");
+    this.searchField.val('');
     this.isOverlayOpen = true;
-    this.searchField.focus();
+    /*Notes
+    Here one point to cear why i add focus function inside timeout function becouse
+    when opening search overlay it not open immediately it takes some time so we wait until it open up correctly
+    then we add focus to it
+    */
+
+    setTimeout(() => {
+      this.searchField.focus();
+    }, 500);
   }
 
   closeOverlay() {
@@ -4076,7 +4104,27 @@ class Search {
     this.isOverlayOpen = false;
   }
 
-  searchText() {}
+  addSearchHTML() {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()("body").append(`
+
+    <div class="search-overlay">
+      <div class="search-overlay__top">
+        <div class="container">
+          <i class="fa fa-search search-overlay__icon" aria-hidden="true"></i>
+          <input type="text" class="search-term" placeholder="What are you looking for?" id="search-term" autofocus>
+          <i class="fa fa-window-close search-overlay__close" aria-hidden="true"></i>
+        </div>
+      </div>
+
+      <div class="container">
+        <div id="search-overlay__results">
+
+        </div>
+      </div>
+
+    </div>
+    `);
+  }
 
 }
 

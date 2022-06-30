@@ -10,4 +10,3 @@ const mobileMenu = new MobileMenu()
 const heroSlider = new HeroSlider()
 const searchComponent = new Search()
 
-// alert("Hi")

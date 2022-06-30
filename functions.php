@@ -1,5 +1,16 @@
 <?php
 
+require get_theme_file_path('inc/search-route.php');
+
+function univercity_custom_rest() {
+  register_rest_field('post', 'authorName', array(
+    'get_callback' => function() {return get_the_author();}
+  ));
+}
+
+add_action('rest_api_init', 'univercity_custom_rest');
+
+
 function pageBanner($args = NULL) {
 
   if (!$args['title']) {
@@ -85,3 +96,4 @@ function universityMapKey($api) {
 }
 
 add_filter('acf/fields/google_map/api', 'universityMapKey');
+
