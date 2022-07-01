@@ -48,18 +48,19 @@ class Search {
   }
 
   getResult() {
-    $.getJSON(univercityData.root_url+'/wp-json/university/v1/search?term='+this.searchField.val()), (result) => {
+    $.getJSON(univercityData.root_url+'/wp-json/university/v1/search?term='+this.searchField.val(), (result) => {
 
       this.resultDiv.html(`
         <div class="row">
-          <div className="one-third">
-            <h2 className="search-overlay__section-title">General Information</h2>
+          <div class="one-third">
+            <h2 class="search-overlay__section-title">General Information</h2>
 
             ${result.generalInfo.length ?
               `<ul class="link-list min-list">
                 ${result.generalInfo.map(item => `
                 <li>
                   <a href="${item.permlink}">${item.title}</a>
+                  ${item.postType == 'post' ? `by ${item.authorName}`:''}
                 </li>
                 `).join('')}
               </ul>`
@@ -69,22 +70,80 @@ class Search {
 
           </div>
 
-          <div className="one-third">
-            <h2 className="search-overlay__section-title">Programs</h2>
+          <div class="one-third">
+            <h2 class="search-overlay__section-title">Programs</h2>
+            ${result.programs.length ?
+              `<ul class="link-list min-list">
+                ${result.programs.map(item => `
+                <li>
+                  <a href="${item.permlink}">${item.title}</a>
+                </li>
+                `).join('')}
+              </ul>`
+                :
+              `<p>No programs matches that search. <a href="${univercityData.root_url}/programs">View all programs</a></p>`
+              }
 
-            <h2 className="search-overlay__section-title">Professors</h2>
+            <h2 class="search-overlay__section-title">Professors</h2>
+            ${result.professor.length ?
+              `<ul class="professor-cards">
+                ${result.professor.map(item => `
+                <li class="professor-card__list-item">
+                  <a class="professor-card" href="${item.permlink}">
+                    <img class="professor-card__image" src="${item.image}">
+                    <span class="professor-card__name">${item.title}</span>
+                  </a>
+                </li>
+                `).join('')}
+              </ul>`
+                :
+              `<p>No professor matches that search.</p>`
+              }
+
           </div>
 
-          <div className="one-third">
-            <h2 className="search-overlay__section-title">Campuses</h2>
+          <div class="one-third">
+            <h2 class="search-overlay__section-title">Campuses</h2>
+            ${result.campuses.length ?
+              `<ul class="link-list min-list">
+                ${result.campuses.map(item => `
+                <li>
+                  <a href="${item.permlink}">${item.title}</a>
+                </li>
+                `).join('')}
+              </ul>`
+                :
+              `<p>No campuses matches that search. <a href="${univercityData.root_url}/campuses">View all campuses</a></p>`
+              }
 
-            <h2 className="search-overlay__section-title">Events</h2>
+            <h2 class="search-overlay__section-title">Events</h2>
+
+            ${result.events.length ?
+              `
+                ${result.events.map(item => `
+                <div class="event-summary">
+                <a class="event-summary__date t-center" href="#">
+                  <span class="event-summary__month">${item.month}</span>
+                    <span class="event-summary__day">${item.day}</span>
+                  </a>
+                  <div class="event-summary__content">
+                    <h5 class="event-summary__title headline headline--tiny"><a href="${item.permlink}">${item.title}</a></h5>
+                    ${item.description}
+                  </div>
+                </div>
+                `).join('')}
+              `
+                :
+              `<p>No events matches that search. <a href="${univercityData.root_url}/events">View all events</a></p>`
+              }
+
           </div>
 
         </div>
       `);
-    }
-  }
+      this.isSpinnerVisible = false;
+    })
+  };
 
   keyPressDispatcher(e) {
 
