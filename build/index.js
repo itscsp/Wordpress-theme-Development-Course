@@ -4083,7 +4083,7 @@ class Search {
           </div>
 
           <div class="one-third">
-            <h2 class="search-overlay__section-title">Campuses</h2>
+            <h2 class="search-overlay__section-title">Campuses updated</h2>
             ${result.campuses.length ? `<ul class="link-list min-list">
                 ${result.campuses.map(item => `
                 <li>

@@ -47,9 +47,21 @@ function universitySearchResult($data) {
         }
 
         if(get_post_type() == 'program'){
+            $relatedCampuses = get_field('related_campuses');
+
+            if($relatedCampuses){
+                foreach($relatedCampuses as $campus) {
+                    array_push($results['campuses'], array(
+                        'title' => get_the_title($campus),
+                        'permlink' => get_the_permalink($campus)
+                    ));
+                }
+            }
+
             array_push($results['programs'], array(
                 'title' => get_the_title(),
-                'permlink' => get_the_permalink()
+                'permlink' => get_the_permalink(),
+                'id' => get_the_ID()
             ));
         }
 
@@ -89,7 +101,7 @@ function universitySearchResult($data) {
             array(
                 'key' => 'related_programs',
                 'compare' => 'LIKE',
-                'value' => '"60"'
+                'value' => '"'.$results['programs'][0]['id'].'"'
             )
         )
     ));
@@ -105,7 +117,12 @@ function universitySearchResult($data) {
         }
     }
 
+
+    // this code remove dublicate in search result
+
     $results['professor'] = array_values(array_unique($results['professor'], SORT_REGULAR));
+    $results['campuses'] = array_values(array_unique($results['campuses'], SORT_REGULAR));
+
 
    return $results;
 }
