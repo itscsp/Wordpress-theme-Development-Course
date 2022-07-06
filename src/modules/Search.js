@@ -158,6 +158,7 @@ class Search {
 
   openOverlay() {
     this.searchOverlay.addClass("search-overlay--active")
+    $("body").addClass('body-no-scroll');
     this.searchField.val('');
     this.isOverlayOpen = true;
     /*Notes
@@ -165,7 +166,9 @@ class Search {
     when opening search overlay it not open immediately it takes some time so we wait until it open up correctly
     then we add focus to it
     */
-    setTimeout(() => {this.searchField.focus()}, 500)
+   setTimeout(() => {this.searchField.focus()}, 500)
+
+   return false;
 
   }
 

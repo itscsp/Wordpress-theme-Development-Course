@@ -4129,6 +4129,7 @@ class Search {
 
   openOverlay() {
     this.searchOverlay.addClass("search-overlay--active");
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()("body").addClass('body-no-scroll');
     this.searchField.val('');
     this.isOverlayOpen = true;
     /*Notes
@@ -4140,6 +4141,7 @@ class Search {
     setTimeout(() => {
       this.searchField.focus();
     }, 500);
+    return false;
   }
 
   closeOverlay() {
