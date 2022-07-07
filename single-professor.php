@@ -22,7 +22,7 @@
           </div>
 
           <div class="two-thirds">
-            <?php the_content(); ?>
+            <?php  $content = get_field('main_body_content'); echo $content;  ?>
           </div>
 
         </div>

@@ -1,5 +1,5 @@
 <?php
-  
+
   get_header();
 
   while(have_posts()) {
@@ -12,9 +12,9 @@
         <p><a class="metabox__blog-home-link" href="<?php echo get_post_type_archive_link('campus'); ?>"><i class="fa fa-home" aria-hidden="true"></i> All Campuses</a> <span class="metabox__main"><?php the_title(); ?></span></p>
       </div>
 
-      <div class="generic-content"><?php the_content(); ?></div>
+      <div class="generic-content"><?php $content = get_field('main_body_content'); echo $content;  ?></div>
 
-      <?php 
+      <?php
         $mapLocation = get_field('map_location');
       ?>
 
@@ -25,7 +25,7 @@
           </div>
       </div>
 
-      <?php 
+      <?php
         $relatedPrograms = new WP_Query(array(
           'posts_per_page' => -1,
           'post_type' => 'program',
@@ -59,9 +59,9 @@
       ?>
 
     </div>
-    
 
-    
+
+
   <?php }
 
   get_footer();
