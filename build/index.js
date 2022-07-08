@@ -3893,7 +3893,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_MobileMenu__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/MobileMenu */ "./src/modules/MobileMenu.js");
 /* harmony import */ var _modules_HeroSlider__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/HeroSlider */ "./src/modules/HeroSlider.js");
 /* harmony import */ var _modules_Search__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/Search */ "./src/modules/Search.js");
+/* harmony import */ var _modules_myNotes__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/myNotes */ "./src/modules/myNotes.js");
  // Our modules / classes
+
 
 
 
@@ -3902,6 +3904,7 @@ __webpack_require__.r(__webpack_exports__);
 const mobileMenu = new _modules_MobileMenu__WEBPACK_IMPORTED_MODULE_1__["default"]();
 const heroSlider = new _modules_HeroSlider__WEBPACK_IMPORTED_MODULE_2__["default"]();
 const searchComponent = new _modules_Search__WEBPACK_IMPORTED_MODULE_3__["default"]();
+const myNotes = new _modules_myNotes__WEBPACK_IMPORTED_MODULE_4__["default"]();
 
 /***/ }),
 
@@ -4174,6 +4177,59 @@ class Search {
 }
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Search);
+
+/***/ }),
+
+/***/ "./src/modules/myNotes.js":
+/*!********************************!*\
+  !*** ./src/modules/myNotes.js ***!
+  \********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ "jquery");
+/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(jquery__WEBPACK_IMPORTED_MODULE_0__);
+
+
+class MyNotes {
+  constructor() {
+    this.events();
+  }
+
+  events() {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('.delete-note').on("click", this.deleteNote);
+    jquery__WEBPACK_IMPORTED_MODULE_0___default()('.edit-note').on("click", this.editNote);
+  } //methods will go here
+
+
+  deleteNote() {
+    jquery__WEBPACK_IMPORTED_MODULE_0___default().ajax({
+      beforeSend: xhr => {
+        xhr.setRequestHeader('X-WP-Nonce', univercityData.nonce);
+      },
+      url: univercityData.root_url + '/wp-json/wp/v2/note/109',
+      type: 'DELETE',
+      success: response => {
+        console.log('Congrats');
+        console.log(response);
+      },
+      error: response => {
+        console.log('Soory');
+        console.log(response);
+      }
+    });
+  }
+
+  editNote() {
+    alert('You clicked edit');
+  }
+
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (MyNotes);
 
 /***/ }),
 
