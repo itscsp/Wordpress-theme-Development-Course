@@ -6,6 +6,11 @@ function univercity_custom_rest() {
   register_rest_field('post', 'authorName', array(
     'get_callback' => function() {return get_the_author();}
   ));
+
+  register_rest_field('notes', 'userNoteCount', array(
+    'get_callback' => function() {return count_user_posts(get_current_user_id(), 'notes') ;}
+  ));
+
 }
 
 add_action('rest_api_init', 'univercity_custom_rest');
@@ -142,4 +147,29 @@ add_filter('login_headertitle', 'ourLoginTitle');
 function ourLoginTitle() {
   return get_bloginfo('name');
 
+}
+
+//Force notes posts to be private
+add_filter('wp_insert_post_data', 'makeNotePrivate', 10, 2);
+
+function makeNotePrivate($data, $postArray){
+  if($data['post_type'] == 'notes'){
+    //limit user 5 post can be created
+    if(count_user_posts(get_current_user_id(), 'notes') > 4 AND !$postArray['ID']) {
+      die("You have reached your note limit.");
+    }
+
+    //priventing from entering row HTML code
+    $data['post_content'] = sanitize_textarea_field($data['post_content']);
+    $data['post_title'] = sanitize_text_field($data['post_title']);
+
+  }
+
+  //here we check only if notes and we check if user want to delete
+  if($data['post_type'] == 'notes' AND $data['post_status'] != 'trash') {
+
+    $data['post_status'] = "private";
+  }
+
+  return $data;
 }
