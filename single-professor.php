@@ -36,24 +36,27 @@
 
               $existStatus = 'no';
 
-              $existQuery = new WP_Query(array(
-                'author' => get_current_user_id(),
-                'post_type' => 'like',
-                'meta_query' => array(
-                  array(
-                    'key' => 'liked_professor_id',
-                    'compare' => '=',
-                    'value' => get_the_ID()
-                  )
-                )
-              ));
+              if(is_user_logged_in()){
 
-              if($existQuery->found_posts) {
-                $existStatus = 'yes';
+                $existQuery = new WP_Query(array(
+                  'author' => get_current_user_id(),
+                  'post_type' => 'like',
+                  'meta_query' => array(
+                    array(
+                      'key' => 'liked_professor_id',
+                      'compare' => '=',
+                      'value' => get_the_ID()
+                    )
+                  )
+                ));
+
+                if($existQuery->found_posts) {
+                  $existStatus = 'yes';
+                }
               }
 
             ?>
-            <span class="like-box" data-exists="<?php echo $existStatus ?>">
+            <span class="like-box" data-professor="<?php the_ID(); ?>" data-exists="<?php echo $existStatus ?>">
               <i class="fa fa-heart-o" aria-hidden="true"></i>
               <i class="fa fa-heart" aria-hidden="true"></i>
               <span class="like-count"><?php echo $likeCount->found_posts ?></span>
