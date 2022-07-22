@@ -1,6 +1,5 @@
-<pre>
-<?php
-    $args = array(  
+
+<?php $args = array(  
         'post_type' => 'products',
     );
 
@@ -41,4 +40,4 @@
     ?>
 
 
-</pre>
+
