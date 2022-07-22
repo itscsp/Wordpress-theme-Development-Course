@@ -1,4 +1,4 @@
-
+```
 <?php $args = array(  
         'post_type' => 'products',
     );
@@ -38,6 +38,6 @@
     <?php
     wp_reset_postdata(); 
     ?>
-
+```
 
 
